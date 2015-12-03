@@ -1,7 +1,5 @@
 #! /bin/bash
 
-cd "$(dirname "${BASH_SOURCE[0]}")"
-
 cloneorupdate() {
 	if [ -d "$2" ]; then
 		echo "Updating $2"
@@ -48,4 +46,4 @@ done
 
 echo "Error occured: exited with status $r!" >> fuzzout.txt
 cap="$(sed -ne 's/^ *Output file: *//p' fuzzout.txt)"
-mutt -s 'Wireshark Fuzz Failure' -a "$cap" -- kevincox+fuzz@kevincox.ca < fuzzout.txt 
+mutt -s 'Wireshark Fuzz Failure' -a "$cap" -- "${FUZZ_EMAIL}" < fuzzout.txt 
