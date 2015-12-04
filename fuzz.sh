@@ -31,7 +31,7 @@ r=0
 while [ $r == 0 ]; do
 	(
 		cd build/run/
-		echo "Starting fuzz round $runs."
+		echo "Starting fuzz round $run."
 		exec bash ../../wireshark/tools/fuzz-test.sh -2gp 1 ../../ceph-caps/*.pcapng.gz
 	) | tee fuzzout.txt
 	r=$?
