@@ -1,5 +1,8 @@
 #! /bin/bash
 
+ws_git=${FUZZ_WIRESHARK_GIT:-https://code.wireshark.org/review/wireshark}
+caps_git=${FUZZ_WIRESHARK_GIT:-https://github.com/kevincox/ceph-caps.git}
+
 cloneorupdate() {
 	if [ -d "$2" ]; then
 		echo "Updating $2"
@@ -8,8 +11,8 @@ cloneorupdate() {
 		git clone "$1" "$2"
 	fi
 }
-cloneorupdate https://github.com/kevincox/ceph-caps.git ceph-caps
-cloneorupdate https://code.wireshark.org/review/wireshark wireshark
+cloneorupdate "$caps_git" caps
+cloneorupdate "$ws_git" wireshark
 
 mkdir -p build/
 cd build/
@@ -32,7 +35,7 @@ while [ $r == 0 ]; do
 	(
 		cd build/run/
 		echo "Starting fuzz round $run."
-		exec bash ../../wireshark/tools/fuzz-test.sh -2gp 1 ../../ceph-caps/*.pcapng.gz
+		exec bash ../../wireshark/tools/fuzz-test.sh -2gp 1 ../../caps/*.pcapng.gz
 	) | tee fuzzout.txt
 	r=$?
 	run=$(($run+1))
