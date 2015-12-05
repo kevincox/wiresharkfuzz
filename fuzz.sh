@@ -1,18 +1,19 @@
 #! /bin/bash
 
 ws_git=${FUZZ_WIRESHARK_GIT:-https://code.wireshark.org/review/wireshark}
-caps_git=${FUZZ_WIRESHARK_GIT:-https://github.com/kevincox/ceph-caps.git}
+ws_branch=${FUZZ_WIRESHARK_BRANCH:-master}
+caps_git=${FUZZ_CAPS_GIT:-https://github.com/kevincox/ceph-caps.git}
+caps_branch=${FUZZ_CAPS_BRANCH:-master}
 
 cloneorupdate() {
-	if [ -d "$2" ]; then
-		echo "Updating $2"
-		(cd "$2" && git pull)
-	else
-		git clone "$1" "$2"
+	if [ \! -d "$3" ]; then
+		git clone "$1" "$3"
 	fi
+	echo "Updating $3"
+	(cd "$3" && git fetch "$1" "$2" && git reset --hard FETCH_HEAD)
 }
-cloneorupdate "$caps_git" caps
-cloneorupdate "$ws_git" wireshark
+cloneorupdate "$caps_git" "$caps_branch" caps
+cloneorupdate "$ws_git" "$ws_branch" wireshark
 
 mkdir -p build/
 cd build/
