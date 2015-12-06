@@ -14,6 +14,9 @@ cloneorupdate https://code.wireshark.org/review/wireshark wireshark
 mkdir -p build/
 cd build/
 cmake ../wireshark \
+	-DBUILD_wireshark=OFF \
+	-DBUILD_qtshark=OFF \
+	-DBUILD_tshark=OFF \
 	-DCFLAGS='--param max-gcse-memory=0 -ftrack-macro-expansion=0' \
 	-DLDFLAGS='--no-keep-memory --reduce-memory-overheads' \
 	-DCMAKE_BUILD_TYPE=Debug
