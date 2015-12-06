@@ -20,13 +20,15 @@ cd build/
 cmake ../wireshark \
 	-DBUILD_wireshark=OFF \
 	-DBUILD_qtshark=OFF \
-	-DBUILD_tshark=OFF \
+	-DENABLE_GTK3=OFF \
+	-DENABLE_QT5=OFF \
 	-DCFLAGS='--param max-gcse-memory=0 -ftrack-macro-expansion=0' \
 	-DLDFLAGS='--no-keep-memory --reduce-memory-overheads' \
 	-DCMAKE_BUILD_TYPE=Debug
 r=$?
 if [ $r != 0 ]; then echo "cmake exited with $r"; exit $r; fi
 make tshark editcap capinfos VERBOSE=1
+r=$?
 if [ $r != 0 ]; then echo "make exited with $r"; exit $r; fi
 cd ..
 
